@@ -1,0 +1,410 @@
+---
+title: "DataViz_Babynames"
+author: "Eleni Mora"
+date: "4/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(babynames)
+```
+
+##Assignment 1
+#Making Ggplots using Babynames Dataset
+By Eleni Mora 
+
+##Codebook 
+Year (ordinal numeric)
+Sex (binary: F or M)
+Name (chacacter)
+n (total number)
+prop (proportion of total n/total babies of that gender recorded for that year)
+
+##Exploring Subsets
+#Subsetting by Gender
+I think it will be more comprehensible to create plots of the 10 most popular male and female names 
+
+To create this subsetted data I will first create subsets by gender: 
+```{r}
+babynames.F <- subset(babynames, sex=="F")
+
+babynames.M <- subset(babynames, sex=="M")
+
+(((nrow(babynames.F))+(nrow(babynames.M)))==nrow(babynames))
+```
+
+#Focusing on only the most popular names
+```{r}
+top.babynames.F <- subset(babynames.F, prop>=.02)
+(nrow(top.babynames.F))
+
+top.babynames.M <- subset(babynames.M, prop>=.02)
+(nrow(top.babynames.M))
+```
+
+#Building Graph 1
+Inspired by the wildfire graph my group created, I think it would be cool to show how the most popular names changed over time. 
+
+For females:
+```{r}
+ggplot(data=top.babynames.F, mapping=aes(x=year, y=n))+
+  geom_point(aes(x=year, y=name, alpha=n, size=n, color=name), show.legend=FALSE )+
+  scale_size(trans="identity", range=c(0.005,5)) +
+  ggtitle("The Changing Landscape of the most popular names among women")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_line(colour="grey9", linetype = 1),
+    panel.grid.minor.x = element_line(colour="grey9", linetype=1),
+    panel.grid.major.y = element_line(colour="grey9", linetype=1),
+    plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("ChangingLandscape_babynames_Females.png", last_plot())
+```
+
+For males:
+```{r}
+ggplot(data=top.babynames.M, mapping=aes(x=year, y=n))+
+  geom_point(aes(x=year, y=name, alpha=n, size=n, color=name), show.legend=FALSE )+
+  scale_size(trans="identity", range=c(0.005,5)) +
+  ggtitle("The Changing Landscape of the most popular names among men")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_line(colour="grey9", linetype = 1),
+    panel.grid.minor.x = element_line(colour="grey9", linetype=1),
+    panel.grid.major.y = element_line(colour="grey9", linetype=1),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("ChangingLandscape_babynames_Men.png", last_plot())
+```
+
+#Exploring subsets of particular names: 
+
+Creating subsets of my favorite people's (and my) name, and then exploring their size and trends as I decide how I will consolidate them: 
+```{r, echo=FALSE}
+eleni <- subset(babynames, name=="Eleni")
+nrow(eleni)
+ggplot(data=eleni, mapping=aes(year, n))+
+  geom_point()
+#no zigzag, small numbers
+
+liam <- subset(babynames, name=="Liam")
+nrow(liam)
+ggplot(data=liam, mapping=aes(year, n))+
+  geom_line()
+#zigzag, big numbers
+#hmm wonder if there's a correlation between the popularity of this name and Liam Neeson and Liam Hemsworth movies 
+
+karen <- subset(babynames, name=="Karen")
+nrow(karen)
+ggplot(data=karen, mapping=aes(year, n))+
+  geom_point()
+#zigzag, nig numbers
+
+priyanka <- subset(babynames, name=="Priyanka")
+nrow(priyanka)
+ggplot(data=priyanka, mapping=aes(year, n))+
+  geom_point()
+#no zigzag, small numbers 
+
+imanol <- subset(babynames, name=="Imanol")
+nrow(imanol)
+ggplot(data=imanol, mapping=aes(year, n))+
+  geom_point()
+#no zigzag, small numbers
+
+miguel <- subset(babynames, name=="Miguel")
+nrow(miguel)
+ggplot(data=miguel, mapping=aes(year, n))+
+  geom_point()
+#zigzag, big numbers
+
+dorothy <- subset(babynames, name=="Dorothy")
+nrow(dorothy)
+ggplot(data=dorothy, mapping=aes(year, n))+
+  geom_point()
+#zigzag, big numbers
+
+john <- subset(babynames, name=="John")
+nrow(john)
+ggplot(data=john, mapping=aes(year, n))+
+  geom_point()
+#zigzag, big numbers
+
+james <- subset(babynames, name=="James")
+nrow(james)
+ggplot(data=james, mapping=aes(year, n))+
+  geom_point()
+#zigzag nig numbers
+
+liora <- subset(babynames, name=="Liora")
+nrow(liora)
+ggplot(data=liora, mapping=aes(year, n))+
+  geom_point()
+#no zigzag, small numbers
+
+shirley <- subset(babynames, name=="Shirley")
+nrow(shirley)
+ggplot(data=shirley, mapping=aes(year, n))+
+  geom_point()
+#zigzag, big numbers
+
+abigail <- subset(babynames, name=="Abigail")
+nrow(abigail)
+ggplot(data=abigail, mapping=aes(year, n))+
+  geom_point()
+
+julia <- subset(babynames, name=="Julia")
+nrow(julia)
+ggplot(data=abigail, mapping=aes(year, n))+
+  geom_point()
+
+```
+
+So a challenge with this is that there appears to be some very dramatic periodicity happening with some of the names over time. 
+This would result in an unappealing zigzag over time that would make overlaying multiple graphs untenable/incomprehensible...
+That, and the names that zigzag are also much more popular than the rarer names. 
+
+I considered switching to side by side bar graphs over time... but it's not as effective: spacing out the bars, even with color coding, is busier and less obvious than a clean line. 
+
+But I can't justify removing <100 data points for some values and not others in the graph. 
+
+So I've decided to build scatter plots for rare names and popular names seperately. 
+For the popular names I will remove the n<=100, and my justification is that I'm interested in general trends over time. The "truth" of the general trend is not compromised by doing this. 
+
+Then I will plot rare names on a seperate graph, un-changed. 
+
+The two would not work on the same graph anyway: rare names would like a tiny unmoving line at the bottom of the axis. 
+
+Nevermind! I cannot justify the removal of the n<=100: I think it's very interesting that the very high frequency names have this periodicity to them. It's almost a rule that every other year the name PLUMMETS in popularity. Fascinating. It seems unethical/a damn shame to lose that bit of the story because of my prior insistence of wanting the graphs on the same plot. 
+
+So here's my compromise: 
+I'm going to join the popular names into one dataset, and the rare names into another. I will then facet by name and, in doing so, each person can look at their respective name graph displayed on its own and the full truth of the trends over time will be preserved.
+
+#Create subsets of popular andrare names of interest
+```{r}
+#Popular names: 
+pop_names <- rbind(liam, karen, miguel, dorothy, john, james, shirley, abigail, julia)
+#beautiful
+
+rare_names <- rbind(eleni, priyanka, imanol, liora)
+```
+
+#Creating plots with these subsets: 
+```{r}
+#Popular names: 
+ggplot(data=pop_names) +
+  geom_line(mapping= aes(x=year, y=n, color=name), show.legend = FALSE)+
+  facet_wrap(~ name, nrow=3, ncol=3)+
+  ggtitle("Trends in my loved one's names over time: the popular names")+
+    theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    strip.background = element_rect(fill="black", colour="black"),
+    strip.text = element_text(color="white", size=10),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("PopularNames_babynames.png", last_plot())
+```
+
+#Another type of plot with the popular names: 
+```{r}
+ggplot(data=pop_names, mapping=aes(x=year, y=n))+
+  geom_point(aes(x=year, y=name, alpha=n, size=n, color=name), show.legend=FALSE )+
+  scale_size(trans="identity", range=c(1,5)) +
+  ggtitle("Shifting trends in the names of loved ones with popular names")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_line(colour="grey9", linetype = 1),
+    panel.grid.minor.x = element_line(colour="grey9", linetype=1),
+    panel.grid.major.y = element_line(colour="grey9", linetype=1),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("ChangingLandscape_PopNames.png", last_plot())
+```
+
+#Graphings the rare names: 
+```{r}
+ggplot(data=rare_names) +
+  geom_line(mapping= aes(x=year, y=n, color=name), show.legend = FALSE)+
+  facet_wrap(~ name, nrow=2, ncol=2)+
+  ggtitle("Trends over time for mine and my two best friends names")+
+    theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    strip.background = element_rect(fill="black", colour="black"),
+    strip.text = element_text(color="white", size=10),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("RareNames_babynames.png", last_plot())
+```
+Hmm but I'd like to experiment/play around with layering different datasets on the same plot (the quintessence of the layered grammer of ggplot) and also with the different line-type and adding annotations
+
+#Another plot for rare names: 
+```{r}
+ggplot()+
+  ggtitle("Trends in my best friend's and my name over the years")+
+  geom_line(data=eleni, mapping=aes(x=year, y=n), color="orange", linetype=2)+
+  geom_line(data=priyanka, mapping=aes(x=year, y=n), color="skyblue", linetype=1)+
+  geom_line(data=imanol, mapping=aes(x=year, y=n), color="springgreen", linetype=4)+
+  annotate("text", x=2002,y=180, label="Imanol", color="springgreen")+
+  annotate("text", x=1989,y=150, label="Eleni", color="orange")+
+  annotate("text", x=1986,y=45, label="Priyanka", color="skyblue")+
+  xlim(1940, 2017)+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    axis.line.x = element_line(color="white"),
+    axis.line.y = element_line(color="white"),
+    axis.ticks = element_line(color="white"),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    strip.background = element_rect(fill="black", colour="black"),
+    strip.text = element_text(color="white", size=10),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    plot.title=element_text(colour="white", lineheight=5, hjust=0.45),
+    )
+
+ggsave("MusketeersTrends_babynames.png", last_plot())
+```
+
+#And a bonus because I really love this style of time-series presentation:
+```{r}
+favorite_people <- rbind(pop_names, rare_names)
+
+ggplot(data=favorite_people, mapping=aes(x=year, y=n))+
+  geom_point(aes(x=year, y=name, alpha=n, size=n, color=name), show.legend=FALSE )+
+  scale_size(trans="identity", range=c(1,5)) +
+  ggtitle("The changing landscape of the names of my favorite people")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_line(colour="grey9", linetype = 1),
+    panel.grid.minor.x = element_line(colour="grey9", linetype=1),
+    panel.grid.major.y = element_line(colour="grey9", linetype=1),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.3))
+
+ggsave("ChangingLandscape_FavPpl_babynames.png", last_plot())
+```
+Hmm I would like to look at the top 10 names for the year I was born. 
+
+#Data prep, subsetting by year 
+```{r}
+birthyear_M <- subset(babynames, year==1996 & sex=="M")
+attach(birthyear_M)
+order_birthyear_M <- birthyear_M[order(-n),]
+
+birthyear_top_M <- subset(order_birthyear_M, n>=25234)
+nrow(birthyear_top_M)
+
+
+birthyear_F <- subset(babynames, year==1996 & sex=="F")
+attach(birthyear_F)
+order_birthyear_F <- birthyear_F[order(-n),]
+
+birthyear_top_F <- subset(order_birthyear_F, n>=15995)
+nrow(birthyear_top_F)
+```
+
+#Graph building for Males: 
+```{r}
+ggplot(data=birthyear_top_M, aes(x=name, y=n))+
+  geom_bar(stat="identity", fill="royalblue")+
+  ggtitle("Top 10 male names in 1996")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1, angle=90),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour="grey24"),
+    panel.grid.minor.y = element_blank(),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.5))
+ggsave("TopNames1996_Male_babynames.png", last_plot())
+```
+
+Graph building for Females: 
+```{r}
+ggplot(data=birthyear_top_F, aes(x=name, y=n))+
+  geom_bar(stat="identity", fill="lightcoral")+
+  ggtitle("Top 10 female names in 1996")+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1, angle=90),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour="grey24"),
+    panel.grid.minor.y = element_blank(),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.5))
+
+ggsave("TopNames1996_Female_babynames.png", last_plot())
+  
+```
+Fair enough... but these graphs aren't especially exciting... I don't really care which naems were popular in 1996.... 
+
+Okay instead I'm stuck on wanting to see where the Liam Neeson movies fall relative to the trends in Liam's (my brother's) name over time. 
+
+#Creating a mini dataset of Liam Neeson movies through the years
+```{r}
+Neeson <- NA
+Neeson_n <- c(1, 1, 1, 1, 1, 2, 3, 2, 4, 1, 2, 1, 3, 2, 1, 1, 2, 2, 2, 2, 4, 2, 1, 4, 1, 1, 3, 4, 5, 1, 6, 3, 9, 4, 4, 2)
+Neeson_year <- c(1978, 1979, 1981, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017)
+
+Neeson <- data.frame(Neeson_n, Neeson_year)
+```
+
+#Creating the Liam Neeson vs. Liam babynaems plot: 
+```{r}
+ggplot()+
+  geom_bar(data=Neeson, mapping=aes(x=Neeson_year, y=Neeson_n*1000), stat="identity", fill="grey65", color="grey65")+
+  geom_line(data=liam, mapping=aes(x=year, y=n), color="salmon")+
+  xlab("Year")+
+  ylab("Number of Babies Named Liam")+
+  ggtitle("Correlation between Liam Neeson Films and Babies Named Liam")+
+  scale_y_continuous(sec.axis = sec_axis(~./1000, name = "Number of Neeson Films Each Year"))+
+  theme(
+    axis.text.y = element_text(color = "white", lineheight = 0.9),
+    axis.text.x = element_text(color="white", lineheight=1),
+    axis.title.x = element_text(color="white"),
+    axis.title.y.left = element_text(color="white"),
+    axis.title.y.right = element_text(color="white"),
+    plot.background=element_rect(fill = "black", colour = "black"),
+    panel.background = element_rect(fill = 'black', colour = 'black'),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour="grey24"),
+    panel.grid.minor.y = element_blank(),
+     plot.title=element_text(colour="white", lineheight=4, hjust=0.5))
+
+ggsave("LiamandNeesonFilms.png", last_plot())
+```
+
+
